@@ -30,3 +30,4 @@ for (i in c(hrefs)) {
 #Extract tables from 10q
 URL <- getURL(url10q)
 tables <- readHTMLTable(URL, header = TRUE)
+tables <- list.clean(tables, fun = is.null, recursive = FALSE)
