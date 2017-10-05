@@ -37,13 +37,21 @@ logger.info('aws key id received')
 AWS_SECRET_ACCESS_KEY = sys.argv[4]
 logger.info('aws secret key received')
 
-print(sys.argv)
+#print(sys.argv)
 
 
 # Generate full URL and get the page
 
+
 page = 'https://www.sec.gov/Archives/edgar/data/' + cik + '/' + acc_short + '/' + acc_no +'-index.htm'
-dfs = pd.read_html(page, header=0)
+
+try:
+    dfs = pd.read_html(page, header=0)
+except urllib.error.HTTPError:
+    print("CIK or accession number is invalid")
+except:
+    print("Unexpected error:", sys.exc_info()[0])
+
 documents = dfs[0]
 logger.info('Documents table scraped')
 
@@ -96,9 +104,19 @@ connection = boto.connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
 bucket_name = AWS_ACCESS_KEY_ID.lower() + '-output'
 
-loc = location=boto.s3.connection.Location.DEFAULT
+loc = boto.s3.connection.Location.DEFAULT
 
-bucket = connection.create_bucket(bucket_name, location=loc)
+try:
+    bucket = connection.create_bucket(bucket_name, location=loc)
+except boto.exception.S3ResponseError as err:
+    if "InvalidAccessKeyId" in err.code:
+        "Invalid AWS key id"
+    elif "SignatureDoesNotMatch" in err.code:
+        "Invalid AWS secret key"
+    else:
+        print("Unexpected error:", sys.exc_info()[0])
+except:
+    print("Unexpected error:", sys.exc_info()[0])
 
 def percent_cb(complete, total):
     sys.stdout.write('.')
