@@ -22,39 +22,33 @@ hdlr.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s')) # 
 logger.addHandler(hdlr)
 logger.setLevel(logging.INFO) # enable info logging
 
-
 # Input variables
-
-cik = sys.argv[1] #'51143'
+cik = sys.argv[1]
 logger.info('cik: ' + cik)
 
-acc_no = sys.argv[2] #'0000051143-13-000007'
+acc_no = sys.argv[2]
 logger.info('acc_no: ' + acc_no)
-
 acc_short = acc_no[0:10] + acc_no[11:13] + acc_no[14:]
 logger.info('acc_short generated')
 
-AWS_ACCESS_KEY_ID =sys.argv[3]
-AWS_SECRET_ACCESS_KEY=sys.argv[4]
-logger.info('aws keys received')
+AWS_ACCESS_KEY_ID = sys.argv[3]
+logger.info('aws key id received')
+
+AWS_SECRET_ACCESS_KEY = sys.argv[4]
+logger.info('aws secret key received')
+
+print(sys.argv)
+
 
 # Generate full URL and get the page
 
-page = requests.get('https://www.sec.gov/Archives/edgar/data/' + cik + '/' + acc_short + '/' + acc_no +'-index.htm')
-logger.info('data page accessed')
-source = page.content
+page = 'https://www.sec.gov/Archives/edgar/data/' + cik + '/' + acc_short + '/' + acc_no +'-index.htm'
+dfs = pd.read_html(page, header=0)
+documents = dfs[0]
+logger.info('Documents table scraped')
 
-
-# Scrape page content for links, find 10Q
-
-htmlcontent = html.document_fromstring(source)
-
-href = ''
-for elem in htmlcontent.iterlinks():
-    if "10q.htm" in elem[2]:
-        href+= elem[2]
-
-url10q = 'https://www.sec.gov' + href
+row10q= documents.loc[documents['Type'] == '10-Q']
+url10q='https://www.sec.gov/Archives/edgar/data/' + cik + '/' + acc_short + '/' + str(row10q['Document'][0])
 logger.info('10-Q url generated: ' + url10q)
 
 # Scrape Tables with BeautifulSoup
