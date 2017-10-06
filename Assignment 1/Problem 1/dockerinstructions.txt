@@ -1,3 +1,4 @@
 To run the script:
-1. docker build Dockerfile .
-2. docker run <build image> "<CIK>" "<ACCESSION NUMBER>" "<AWS_ACCESS_KEY_ID>" "<AWS_SECRET_ACCESS_KEY>"
+1. Edit problem1.ini to add CIK, accession number, and AWS key id and secret key. Do not use quotation marks.
+2. docker build Dockerfile .
+3. docker run <build image>

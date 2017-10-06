@@ -13,6 +13,7 @@ import sys
 import logging
 import zipfile
 import boto
+import configparser
 
 # Configure log file
 
@@ -23,21 +24,22 @@ logger.addHandler(hdlr)
 logger.setLevel(logging.INFO) # enable info logging
 
 # Input variables
-cik = sys.argv[1]
+config=configparser.RawConfigParser()
+configFilePath=r'problem1.ini'
+config.read(configFilePath)
+cik = config.get('problem-1', 'CIK')
 logger.info('cik: ' + cik)
 
-acc_no = sys.argv[2]
+acc_no = config.get('problem-1', 'ACC_NO')
 logger.info('acc_no: ' + acc_no)
 acc_short = acc_no[0:10] + acc_no[11:13] + acc_no[14:]
 logger.info('acc_short generated')
 
-AWS_ACCESS_KEY_ID = sys.argv[3]
+AWS_ACCESS_KEY_ID = config.get('problem-1', 'AWS_ACCESS_KEY_ID')
 logger.info('aws key id received')
 
-AWS_SECRET_ACCESS_KEY = sys.argv[4]
+AWS_SECRET_ACCESS_KEY = config.get('problem-1', 'AWS_SECRET_ACCESS_KEY')
 logger.info('aws secret key received')
-
-#print(sys.argv)
 
 
 # Generate full URL and get the page
