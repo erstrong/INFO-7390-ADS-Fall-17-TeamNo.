@@ -1,0 +1,4 @@
+To run the script:
+1. Edit problem1.ini to add year, AWS key id, secret key. Do not use quotation marks.
+2. docker build Dockerfile .
+3. docker run <build image>
