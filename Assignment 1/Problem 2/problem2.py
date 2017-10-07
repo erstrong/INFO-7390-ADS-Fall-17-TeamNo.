@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import boto
 import configparser
 import logging
+import sys
 
 
 # Configure log file
