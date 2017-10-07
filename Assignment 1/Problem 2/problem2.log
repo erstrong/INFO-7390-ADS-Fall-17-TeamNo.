@@ -1,0 +1,54 @@
+2017-10-06 23:45:01,871 INFO year: 2005
+2017-10-06 23:45:01,871 INFO aws key id received
+2017-10-06 23:45:01,871 INFO aws secret key received
+2017-10-06 23:45:01,871 INFO Zip file URLs generated
+2017-10-06 23:45:01,871 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr1/log20050101.zip
+2017-10-06 23:45:03,649 INFO Handling missing data
+2017-10-06 23:45:03,743 INFO Data frame added
+2017-10-06 23:45:03,743 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr1/log20050201.zip
+2017-10-06 23:45:07,891 INFO Handling missing data
+2017-10-06 23:45:08,172 INFO Data frame added
+2017-10-06 23:45:08,173 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr1/log20050301.zip
+2017-10-06 23:45:13,297 INFO Handling missing data
+2017-10-06 23:45:13,544 INFO Data frame added
+2017-10-06 23:45:13,544 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr2/log20050401.zip
+2017-10-06 23:45:14,733 INFO Handling missing data
+2017-10-06 23:45:14,741 INFO Data frame added
+2017-10-06 23:45:14,741 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr2/log20050501.zip
+2017-10-06 23:45:15,880 INFO Handling missing data
+2017-10-06 23:45:15,931 INFO Data frame added
+2017-10-06 23:45:15,932 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr2/log20050601.zip
+2017-10-06 23:45:18,390 INFO Handling missing data
+2017-10-06 23:45:18,505 INFO Data frame added
+2017-10-06 23:45:18,505 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr3/log20050701.zip
+2017-10-06 23:45:20,381 INFO Handling missing data
+2017-10-06 23:45:20,491 INFO Data frame added
+2017-10-06 23:45:20,491 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr3/log20050801.zip
+2017-10-06 23:45:22,457 INFO Handling missing data
+2017-10-06 23:45:22,580 INFO Data frame added
+2017-10-06 23:45:22,581 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr3/log20050901.zip
+2017-10-06 23:45:24,272 INFO Handling missing data
+2017-10-06 23:45:24,372 INFO Data frame added
+2017-10-06 23:45:24,372 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr4/log20051001.zip
+2017-10-06 23:45:24,689 INFO Handling missing data
+2017-10-06 23:45:24,695 INFO Data frame added
+2017-10-06 23:45:24,695 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr4/log20051101.zip
+2017-10-06 23:45:25,041 INFO Handling missing data
+2017-10-06 23:45:25,048 INFO Data frame added
+2017-10-06 23:45:25,048 INFO Reading csv from http://www.sec.gov/dera/data/Public-EDGAR-log-file-data/2005/Qtr4/log20051201.zip
+2017-10-06 23:45:27,167 INFO Handling missing data
+2017-10-06 23:45:27,266 INFO Data frame added
+2017-10-06 23:45:27,266 INFO Identifying most common accession number by month
+2017-10-06 23:45:30,697 INFO Identifying browser frequencies by month
+2017-10-06 23:45:30,725 INFO Broswer frequencies added
+2017-10-06 23:45:30,836 INFO Broswer frequencies added
+2017-10-06 23:45:30,952 INFO Broswer frequencies added
+2017-10-06 23:45:30,954 INFO Broswer frequencies added
+2017-10-06 23:45:30,977 INFO Broswer frequencies added
+2017-10-06 23:45:31,029 INFO Broswer frequencies added
+2017-10-06 23:45:31,077 INFO Broswer frequencies added
+2017-10-06 23:45:31,131 INFO Broswer frequencies added
+2017-10-06 23:45:31,176 INFO Broswer frequencies added
+2017-10-06 23:45:31,178 INFO Broswer frequencies added
+2017-10-06 23:45:31,181 INFO Broswer frequencies added
+2017-10-06 23:45:31,230 INFO Broswer frequencies added
