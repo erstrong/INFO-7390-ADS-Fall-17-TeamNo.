@@ -4,6 +4,7 @@
 .Ruserdata
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
-.csv
-.log
-.ini
+*.csv
+*.log
+*.ini
+*.xlsx
