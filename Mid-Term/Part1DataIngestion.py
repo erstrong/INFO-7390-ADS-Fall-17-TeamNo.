@@ -85,6 +85,7 @@ df_total_t2 = pd.merge(df_total_t1, pools, on='parcelid', how='left')
 
 #### Zip Codes
 search = ZipcodeSearchEngine()
+zips = pd.DataFrame(columns=['parcelid','zipcode'])
 for i, row in df_total_t2.iterrows():
     b = search.by_coordinate(row['latitude'],row['longitude'])
     zips.loc[len(zips)] = [row['parcelid'],b[0].Zipcode]
