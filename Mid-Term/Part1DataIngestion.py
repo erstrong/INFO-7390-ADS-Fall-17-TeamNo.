@@ -213,6 +213,8 @@ df_total['lotsizesquarefeet'] = df_total['lotsizesquarefeet'].map(lambda a: lot(
 def units(a):
     if (a > 20):
         return df_total['unitcnt'].median()
+    else:
+        return a
 
 df_total['unitcnt'] = df_total['unitcnt'].map(lambda a: units(a))
 
