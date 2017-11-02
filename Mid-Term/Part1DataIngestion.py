@@ -218,8 +218,7 @@ df_total['unitcnt'] = df_total['unitcnt'].map(lambda a: units(a))
 
 
 # Several outliers have irregularities in most columns so we are removing them
-df_total[['calculatedfinishedsquarefeet']< 100]  = np.nandf_total = df_total.drop(outliers)
-df_total = df_total.dropna(subset=['calculatedfinishedsquarefeet'])
+df_total = df_total[df_total['calculatedfinishedsquarefeet'] >=100]
 
 ### Upload Output to AWS
 output="clean_data.csv"
