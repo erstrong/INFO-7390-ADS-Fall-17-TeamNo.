@@ -170,12 +170,6 @@ df_total.loc[m1,'garagetotalsqft']=df_total.loc[m1,'garagetotalsqft'].fillna(val
 df_total.loc[m2,'garagetotalsqft']=df_total.loc[m2,'garagetotalsqft'].fillna(0.0)
 
 
-
-# There must be at least as many rooms as bedrooms plus bathrooms in the property. We are thus replacing the NaN with this sum.
-df_total['roomcnt'].replace(0,np.nan, inplace=True)
-df_total['roomcnt'].fillna(df_total['calculatedbathnbr'] + df_total['bedroomcnt'], inplace=True)
-
-
 # Median and Mode Replacements
 # Data is skewed so use median rather than mean for anything that is a count
 
@@ -194,6 +188,11 @@ df_total['taxvaluedollarcnt'].fillna(df_total['taxvaluedollarcnt'].median(), inp
 df_total['landtaxvaluedollarcnt'].fillna(df_total['landtaxvaluedollarcnt'].median(), inplace=True)
 df_total['taxamount'].fillna(df_total['taxamount'].median(), inplace=True)
 df_total['taxdelinquencyflag'].fillna('N', inplace=True)
+
+
+# There must be at least as many rooms as bedrooms plus bathrooms in the property. We are thus replacing the NaN with this sum.
+df_total['roomcnt'].replace(0,np.nan, inplace=True)
+df_total['roomcnt'].fillna(df_total['calculatedbathnbr'] + df_total['bedroomcnt'], inplace=True)
 
 
 ### Data Anomalies
@@ -232,7 +231,7 @@ z.close()
 
 connection = boto.connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
-bucket_name = 'zillowdataesrk'
+bucket_name = 'zillowdata-esrkoutput'
 
 loc = boto.s3.connection.Location.DEFAULT
 
