@@ -222,8 +222,8 @@ df_total['unitcnt'] = df_total['unitcnt'].map(lambda a: units(a))
 df_total = df_total[df_total['calculatedfinishedsquarefeet'] >=100]
 
 ### Upload Output to AWS
-output="clean_data.csv"
-zipname='clean_data.zip'
+output="data.csv"
+zipname='data.zip'
 df_total.to_csv(output, index=False)
 z=zipfile.ZipFile(zipname,"w")
 z.write(output)
@@ -231,7 +231,7 @@ z.close()
 
 connection = boto.connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
-bucket_name = 'zillowdata-esrkoutput'
+bucket_name = 'zillowdata-esrkoutputdata'
 
 loc = boto.s3.connection.Location.DEFAULT
 
