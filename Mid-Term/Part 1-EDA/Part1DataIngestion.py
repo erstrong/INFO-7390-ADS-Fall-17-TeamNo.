@@ -180,7 +180,7 @@ df_total['calculatedfinishedsquarefeet'].fillna(df_total['calculatedfinishedsqua
 df_total['fullbathcnt'].fillna(df_total['fullbathcnt'].median(), inplace=True)
 df_total['heatingorsystemtypeid'].fillna(2, inplace=True) # mode
 df_total['lotsizesquarefeet'].fillna(df_total['lotsizesquarefeet'].median(), inplace=True)
-df_total['unitcnt'].fillna(1, inplace=True) # mode
+df_total['unitcnt'].fillna(df_total['unitcnt'].median(), inplace=True) # mode
 df_total['yearbuilt'].fillna(df_total['yearbuilt'].median(), inplace=True)
 df_total['numberofstories'].fillna(df_total['numberofstories'].median(), inplace=True)
 df_total['structuretaxvaluedollarcnt'].fillna(df_total['structuretaxvaluedollarcnt'].median(), inplace=True)
