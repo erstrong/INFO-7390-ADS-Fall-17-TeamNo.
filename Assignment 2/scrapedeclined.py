@@ -5,6 +5,8 @@ import pandas as pd
 import configparser
 import datetime
 from bs4 import BeautifulSoup
+import datetime
+import numpy as np
 
 
 # Get the list of files to read
@@ -35,15 +37,45 @@ for suffix in suffix2:
     df = pd.read_csv(z.open(suffix[:-4]),header=1,low_memory=False)
     dataframe_collection2.append(df)
 
-merged2 = pd.DataFrame(columns=dataframe_collection2[0].columns.values.tolist())
+declined = pd.DataFrame(columns=dataframe_collection2[0].columns.values.tolist())
 for df in dataframe_collection2:
-    merged2 = merged2.append(df)
+    declined = declined.append(df)
 
-merged2['set'] ='declined'
-merged2['timestamp']=datetime.datetime.now()
+## Data Cleansing
+
+# Convert Application Date to Datetime
+format = '%Y-%m-%d'
+declined['Application Date'] = declined['Application Date'].map(lambda a: datetime.datetime.strptime(a, format))
+
+# Convert Vantage scores to same scale as FICO
+m1=(declined['Application Date'] >='2013-11-06')
+declined.loc[m1,'Risk_Score']=declined.loc[m1,'Risk_Score'] * (85/99)
+
+# Replace impossible credit scores and fill NAs
+m2=(declined['Risk_Score'] <350)
+declined.loc[m2,'Risk_Score']=declined['Risk_Score'].mean()
+
+declined['Risk_Score'].fillna(declined['Risk_Score'].mean(), inplace=True)
+declined['Loan Title'].fillna('None', inplace=True)
+declined['Policy Code'].fillna(0, inplace=True)
+
+# Drop rows missing location data
+declined.dropna(subset=['Zip Code'], inplace=True)
+declined.dropna(subset=['State'], inplace=True)
+
+# Drop Application Date since Loan Stats doesn't have this
+declined.drop('Application Date', axis=1, inplace=True)
+
+# Reformat Debt-To-Income data
+declined['Debt-To-Income Ratio'] = declined['Debt-To-Income Ratio'].map(lambda a: float(a.strip('%')))
+
+# Rename columns to match equivalent Loan Stats column
+declined=declined.rename(columns = {'Amount Requested':'loan_amnt','Loan Title':'title','Risk_Score':'fico_range_low','Debt-To-Income Ratio':'dti','Zip Code':'zip_code','State':'addr_state','Employment Length':'emp_length','Policy Code':'policy_code'})
+
+declined['set'] ='declined'
+declined['timestamp']=datetime.datetime.now()
 output2='declinestats.csv'
-merged2.to_csv(output2, index=False)
-
+declined.to_csv(output2, index=False)
 
 
 print("success")
