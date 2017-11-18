@@ -11,3 +11,4 @@
 .zip
 *.settings
 config.py
+!Prediction Results.xlsx

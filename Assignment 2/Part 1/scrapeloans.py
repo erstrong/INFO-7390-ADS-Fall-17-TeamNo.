@@ -79,9 +79,9 @@ for d in drops3:
 loans = loans[np.isfinite(loans['loan_amnt'])]
 
 # Mean, median, and mode substitutions
-loans["emp_title"].fillna("Not provided", inplace=True)
+#loans["emp_title"].fillna("Not provided", inplace=True)
 loans["annual_inc"].fillna(loans["annual_inc"].mean(), inplace=True)
-loans["title"].fillna("Debt consolidation",inplace=True) # mode
+#loans["title"].fillna("Debt consolidation",inplace=True) # mode
 loans["mths_since_last_delinq"].fillna(loans['mths_since_last_delinq'].max(),inplace=True)
 loans["mths_since_recent_inq"].fillna(loans["mths_since_recent_inq"].median(),inplace=True)
 
