@@ -63,16 +63,23 @@ columns = drops.index
 for c in columns:
     loans.drop(c, axis=1, inplace=True)
 
-# Columns with data related to loan activities
-drops2=['url','funded_amnt','funded_amnt_inv','verification_status','loan_status','pymnt_plan','initial_list_status','out_prncp','out_prncp_inv','total_pymnt','total_pymnt_inv','total_rec_int','total_rec_late_fee','total_rec_prncp','recoveries','collection_recovery_fee','last_pymnt_d','last_pymnt_amnt','hardship_flag','disbursement_method','debt_settlement_flag']
+# Columns with data related to loan processing after application
+# We are keeping the grade and sub_grade in our raw data file to use for evaluating clusters
+drops2=['installment','url','issue_d','funded_amnt','funded_amnt_inv','verification_status','loan_status','pymnt_plan','initial_list_status','out_prncp','out_prncp_inv','total_pymnt','total_pymnt_inv','total_rec_int','total_rec_late_fee','total_rec_prncp','recoveries','collection_recovery_fee','last_pymnt_d','last_pymnt_amnt','hardship_flag','disbursement_method','debt_settlement_flag','last_credit_pull_d','last_fico_range_high','last_fico_range_low','next_pymnt_d']
 
 for d in drops2:
     loans.drop(d, axis=1, inplace=True)
 
 # Redundant columns
-drops3=['pub_rec','acc_now_delinq','tot_coll_amt','delinq_amnt','num_bc_sats','num_tl_120dpd_2m','pct_tl_nvr_dlq','inq_last_6mths','acc_open_past_24mths','mo_sin_old_rev_tl_op','mo_sin_rcnt_rev_tl_op','earliest_cr_line','total_rev_hi_lim','avg_cur_bal','bc_open_to_buy','tot_hi_cred_lim','total_bal_ex_mort','total_il_high_credit_limit','num_op_rev_tl']
+drops3=['pub_rec','acc_now_delinq','tot_coll_amt','delinq_amnt','num_bc_sats','num_tl_120dpd_2m','pct_tl_nvr_dlq','inq_last_6mths','acc_open_past_24mths','mo_sin_old_rev_tl_op','mo_sin_rcnt_rev_tl_op','earliest_cr_line','total_rev_hi_lim','avg_cur_bal','bc_open_to_buy','tot_hi_cred_lim','total_bal_ex_mort','total_il_high_credit_limit','num_op_rev_tl','fico_range_high']
 
 for d in drops3:
+    loans.drop(d, axis=1, inplace=True)
+
+# Not useful for analysis
+drops4 = ['title','emp_title','zip_code','purpose']
+          
+for d in drops4:
     loans.drop(d, axis=1, inplace=True)
 
 
@@ -85,9 +92,16 @@ loans["annual_inc"].fillna(loans["annual_inc"].mean(), inplace=True)
 loans["mths_since_last_delinq"].fillna(loans['mths_since_last_delinq'].max(),inplace=True)
 loans["mths_since_recent_inq"].fillna(loans["mths_since_recent_inq"].median(),inplace=True)
 
+def inc(a):
+    if a > 100000000:
+        return loans['annual_inc'].mean()
+    else:
+        return a
+loans['annual_inc'] = loans['annual_inc'].map(lambda a: inc(a))
+
 
 # For remaining columns, the number of missing values are very small relative to the size of the data set so we are dropping the rows with missing values
-loans.dropna(subset=['zip_code'], inplace=True)
+#loans.dropna(subset=['zip_code'], inplace=True)
 loans.dropna(subset=['dti'], inplace=True)
 loans.dropna(subset=['delinq_2yrs'], inplace=True)
 loans.dropna(subset=['open_acc'], inplace=True)
@@ -106,8 +120,35 @@ loans.dropna(subset=['num_rev_accts'], inplace=True)
 loans.dropna(subset=['percent_bc_gt_75'], inplace=True)
 loans.dropna(subset=['mo_sin_old_il_acct'], inplace=True)
 
-# Convert format of interest rates
+# Remove rows with DTI < 0
+loans=loans[loans['dti'] >=0]
+
+# Convert formats
 loans['int_rate'] = loans['int_rate'].map(lambda a: float(a.strip('%')))
+
+loans['term'] = loans['term'].map(lambda a: int(a.strip(' months')))
+loans['application_type'] = loans['application_type'].map(lambda a: 1 if a=='Joint App' else 0)
+
+def elength(a):
+    if (a=='n/a'):
+        return 0
+    elif (a=='10+ years'):
+        return 10
+    elif (a=='1 year'):
+        return 1
+    elif (a=='< 1 year'):
+        return 0.5
+    else:
+        return float(a.strip(' years'))
+
+loans['emp_length'] = loans['emp_length'].map(lambda a: elength(a))
+
+loans['revol_util'] = loans['revol_util'].map(lambda a: float(a.strip('%')))
+
+homes = pd.get_dummies(loans['home_ownership'], prefix='home')
+loans = loans.join(homes)
+loans.drop('home_ownership', axis=1, inplace=True)
+
 
 output='loanstats.csv'
 loans.to_csv(output, index=False)

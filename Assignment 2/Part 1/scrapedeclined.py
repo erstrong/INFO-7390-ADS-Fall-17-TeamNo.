@@ -68,6 +68,23 @@ declined.drop('Application Date', axis=1, inplace=True)
 
 # Reformat Debt-To-Income data
 declined['Debt-To-Income Ratio'] = declined['Debt-To-Income Ratio'].map(lambda a: float(a.strip('%')))
+declined=declined[declined['Debt-To-Income Ratio'] >=0]
+
+# Reformat employment length
+def elength(a):
+    if (a=='n/a'):
+        return 0
+    elif (a=='10+ years'):
+        return 10
+    elif (a=='1 year'):
+        return 1
+    elif (a=='< 1 year'):
+        return 0.5
+    else:
+        return float(a.strip(' years'))
+
+declined['Employment Length'] = declined['Employment Length'].map(lambda a: elength(a))
+
 
 # Rename columns to match equivalent Loan Stats column
 declined=declined.rename(columns = {'Amount Requested':'loan_amnt','Loan Title':'title','Risk_Score':'fico_range_low','Debt-To-Income Ratio':'dti','Zip Code':'zip_code','State':'addr_state','Employment Length':'emp_length','Policy Code':'policy_code'})
