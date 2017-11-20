@@ -16,7 +16,7 @@ class scrapeLoanData(luigi.Task):
 	def run(self):
 # Get the list of files to read
 		login = 'https://www.lendingclub.com/account/login.action'
-		values= {'login_email':'strong.e@husky.neu.edu','login_password':'Rad1ant$0rch1d'}
+		values= {'login_email':'','login_password':''}
 		page='https://www.lendingclub.com/info/download-data.action'
 
 		suffix=[]
