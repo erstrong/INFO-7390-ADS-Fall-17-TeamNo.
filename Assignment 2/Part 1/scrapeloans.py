@@ -149,6 +149,9 @@ homes = pd.get_dummies(loans['home_ownership'], prefix='home')
 loans = loans.join(homes)
 loans.drop('home_ownership', axis=1, inplace=True)
 
+homes = pd.get_dummies(loans['addr_state'], prefix='home')
+loans = loans.join(homes)
+loans.drop('addr_state', axis=1, inplace=True)
 
 output='loanstats.csv'
 loans.to_csv(output, index=False)
